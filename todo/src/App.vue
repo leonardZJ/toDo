@@ -10,11 +10,12 @@
 	import todoHeader from './components/todoHeader.vue'
 	import todoList from './components/todoList.vue'
 	import todoFooter from './components/todoFooter.vue'
+	import storageUitl from './uitl/storageUitl'
 
 	export default {
 		data() {
 			return {
-				items: JSON.parse(window.localStorage.getItem('items_key') || '[]')
+				items: JSON.parse(storageUitl.getItem())
 			}
 		},
 		components: {
@@ -41,7 +42,7 @@
 		watch: {
 			items: function(value) {
 				deep: true
-				return window.localStorage.setItem('items_key',JSON.stringify(value))
+				return storageUitl.saveItem(value)
 			}
 		}
 	}
