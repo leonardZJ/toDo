@@ -14,20 +14,7 @@
 	export default {
 		data() {
 			return {
-				items: [
-					{
-						content: 'xxxx',
-						complete: false
-					},
-					{
-						content: 'yyyy',
-						complete: false
-					},
-					{
-						content: 'zzzz',
-						complete: false
-					}
-				]
+				items: JSON.parse(window.localStorage.getItem('items_key') || '[]')
 			}
 		},
 		components: {
@@ -49,6 +36,12 @@
 			},
 			selectAll: function(value) {
 				this.items.forEach(item => item.complete = value)
+			}
+		},
+		watch: {
+			items: function(value) {
+				deep: true
+				return window.localStorage.setItem('items_key',JSON.stringify(value))
 			}
 		}
 	}
