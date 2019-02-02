@@ -1,31 +1,30 @@
 <template>
 	<div class="todoFooter">
 		<input type="checkbox" v-model="isAllcheck">
-		<span>已完成{{ isDone }}/全部{{ items.length }}</span>
-		<button class="btn" v-show="isDone" @click="deleteCompleteItem">清除已完成任务</button>
+		<span>已完成{{ isDone }}/全部{{ todos.length }}</span>
+		<button class="btn" v-show="isDone" @click="deleteCompleteTodo">清除已完成任务</button>
 	</div>
 </template>
 
 <script>
+	import {mapState,mapGetters,mapActions} from 'vuex'
+
 	export default {
-		props: {
-			items: Array,
-			deleteCompleteItem: Function,
-			selectAll: Function
-		},
 		computed: {
-			isDone: function() {
-				return this.items.reduce((preTotal,items) => preTotal + (items.complete? 1: 0),0)
-			},
+			...mapState(['todos']),
+			...mapGetters(['isDone']),
 			isAllcheck: {
 				get () {
-					return this.isDone === this.items.length && this.items.length > 0
+					return this.isDone === this.todos.length && this.todos.length > 0
 				},
 				set (value) { //value为当前checkbox传回来的最新值
-					this.selectAll(value)
+					this.todos.forEach(todo => todo.complete = value)
 				}
 			}
 		},
+		methods: {
+			...mapActions(['deleteCompleteTodo'])
+		}
 	}
 </script>
 

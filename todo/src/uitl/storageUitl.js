@@ -3,9 +3,9 @@
 */
 export default {
 	saveItem(value) {
-		window.localStorage.setItem('items_key',JSON.stringify(value))
+		window.localStorage.setItem('todos_key',JSON.stringify(value))
 	},
 	getItem() {
-		return window.localStorage.getItem('items_key') || '[]'
+		return window.localStorage.getItem('todos_key') || '[]'
 	}
 }

@@ -1,39 +1,32 @@
 <template>
-		<li class="todoItem" @mouseenter="isEnter(true)" @mouseleave="isEnter(false)" :style="{ backgroundColor: bgc}">
+	<div>
+		<li class="todoItem" @mouseenter="isEnter(true)" @mouseleave="isEnter(false)" :key="index">
 			<label>
-				<input type="checkbox" v-model="item.complete">
-				<span>{{ item.content }}</span>
+				<input type="checkbox" v-model="todo.complete">
+				<span>{{ todo.content }}</span>
 			</label>
-			<button class="btn" v-show="isShow" @click="deleteItem(index)">删除</button>
+			<button class="btn" v-show="isShow" @click="deletetodo(index)">删除</button>
 		</li>
+	</div>
 </template>
 
 <script>
 	export default {
 		data() {
 			return {
-				isShow: false,
-				bgc: '#fff'
+				isShow: false
 			}
 		},
 		props: {
-			index: Number,
-			item: Object,
-			items: Array,
-			deleteitem: Function
+			todo: Object,
+			index: Number
 		},
 		methods: {
 			isEnter: function(value) {
-				if(value) {
-					this.isShow = true
-					this.bgc = '#eee'
-				} else {
-					this.isShow = false
-					this.bgc = '#fff'
-				}
+				this.isShow = value
 			},
-			deleteItem: function(index) {
-				this.deleteitem(index)
+			deletetodo: function(index) {
+				this.$store.dispatch('deletetodo',index)
 			}
 		}
 	}
@@ -47,6 +40,9 @@
 		line-height: 35px;
 		margin: 0 auto;
 		position: relative;
+	}
+	.todoItem:hover {
+		background-color: #eee;
 	}
 	.btn {
 		float: right;

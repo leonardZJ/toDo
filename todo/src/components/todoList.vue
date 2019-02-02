@@ -1,21 +1,29 @@
 <template>
 	<ul class="todoList">
-		<todoitem v-for="(item,index) in items" :key="index" :item="item" :index="index" :deleteitem="deleteitem"/>
+		<todoitem v-for="(todo,index) in todos" :key="index" :todo="todo" :index="index"/>
 	</ul>
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	import todoitem from './todoitem.vue'
+	import storageUitl from '../uitl/storageUitl'
 
 	export default {
+		computed: {
+			...mapState(['todos'])
+		},
 		components: {
 			todoitem
 		},
-		props: {
-			deleteitem: Function,
-			items: Array
-		},
-		
+		watch: {
+			todos: {
+				deep: true,
+				handler: function(value) {
+					storageUitl.saveItem(value)
+				}
+			}
+		}
 	}
 </script>
 
